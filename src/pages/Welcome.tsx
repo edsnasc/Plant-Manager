@@ -2,6 +2,7 @@ import React from 'react';
 import { SafeAreaView, Text, Image, TouchableOpacity, StyleSheet, StatusBar, Platform } from 'react-native';
 
 import wateringImg from '../assets/watering.png'
+import { Button } from '../components/Button';
 import colors from '../styles/colors';
 
 export function Welcome(){
@@ -20,16 +21,7 @@ export function Welcome(){
                 Nós cuidamos de lembrar você sempre que precisar.
             </Text>
 
-            <TouchableOpacity 
-                style={styles.button} 
-                activeOpacity={0.7}
-            >
-                <Text 
-                    style={styles.buttonText}
-                >
-                    >
-                </Text>
-            </TouchableOpacity>
+            <Button title='>'/>
         </SafeAreaView>
     )
 }
@@ -54,21 +46,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         color: colors.heading
     },
-    button: {
-        backgroundColor: colors.green,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 16,
-        marginBottom: 10,
-        height: 56,
-        width: 56
-    },
     image: {
         width: 292,
         height: 284
-    },
-    buttonText: {
-        color: colors.white,
-        fontSize: 24
     }
 });

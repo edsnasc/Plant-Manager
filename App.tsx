@@ -1,7 +1,7 @@
 import React from 'react';
 import { Welcome } from './src/pages/Welcome';
-import AppLoading  from 'expo-app-loading';
-import * as SplashScreen from 'expo-splash-screen';
+import { Loading } from './src/components/Loading';
+
 import { 
   useFonts,
   Jost_400Regular,
@@ -14,8 +14,11 @@ export default function App() {
     Jost_600SemiBold
   });
 
-  // if(!fontsLoaded)
-  //   return <AppLoading />
+  if (!fontsLoaded) {
+    return (
+      <Loading />
+    );
+  }
   
   return (
     <Welcome />

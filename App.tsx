@@ -1,6 +1,7 @@
 import React from 'react';
-import { Welcome } from './src/pages/Welcome';
+
 import { Loading } from './src/components/Loading';
+import Routes from './src/routes';
 
 import { 
   useFonts,
@@ -21,6 +22,6 @@ export default function App() {
   }
   
   return (
-    <Welcome />
+    <Routes />
   );
 }

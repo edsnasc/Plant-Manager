@@ -4,6 +4,7 @@ export declare global {
             Welcome: undefined;
             UserIndentification: undefined;
             Confirmation: undefined;
+            PlantSelect: undefined;
         }
     }
 }

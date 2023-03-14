@@ -1,7 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, TouchableOpacityProps  } from 'react-native';
 // import { RectButton, RectButtonProps } from 'react-native-gesture-handler' verificado que essa lib não funcionou no android
-import { TouchableOpacityProps } from 'react-native/Libraries/Components/Touchable/TouchableOpacity';
 
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';

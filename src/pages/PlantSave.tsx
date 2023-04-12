@@ -9,7 +9,7 @@ import {
     Platform,
     TouchableOpacity
 } from 'react-native';
-import { useRoute } from '@react-navigation/core';
+import { useRoute, useNavigation } from '@react-navigation/core';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
 import { SvgCssUri } from 'react-native-svg';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker'
@@ -20,7 +20,7 @@ import { Button } from '../components/Button';
 
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
-import { PlantProps } from '../libs/storage';
+import { PlantProps, loadPlant, savePlant } from '../libs/storage';
 
 interface Params {
     plant: PlantProps
@@ -32,6 +32,8 @@ export function PlantSave() {
 
     const route = useRoute();
     const { plant } = route.params as Params;
+
+    const navigation = useNavigation();
 
     function handleChangeTime(event:  DateTimePickerEvent, dateTime: Date | undefined) {
         if (Platform.OS === 'android') {
@@ -50,6 +52,26 @@ export function PlantSave() {
 
     function handleOpenDateTimePikerForAndroid() {
         setShowDatePicker(oldState => !oldState);
+    }
+
+    async function handleSave() {
+        try {
+            await savePlant({
+                ...plant,
+                dateTimeNotification: selectedDateTime
+            });
+
+            navigation.navigate('Confirmation', {
+                title: 'Tudo Certo',
+                subtitle: 'Fique tranquilo que sempre vamos lembrar você de cuidar da sua plantinha com muito cuidado.',
+                buttonTitle: 'Muito Obrigado :D',
+                icon: 'hug',
+                nextScreen: 'MyPlants',
+            })
+            
+        } catch {
+            Alert.alert('Não foi possível salvar. 😢')
+        }
     }
 
     return (
@@ -106,7 +128,7 @@ export function PlantSave() {
 
                 <Button
                     title="Cadastrar Planta"
-                    onPress={() => { }}
+                    onPress={handleSave}
                 />
             </View>
 

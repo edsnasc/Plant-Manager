@@ -1,20 +1,46 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     StyleSheet,
     View,
     Text,
-    Image
+    Image,
+    FlatList
 } from 'react-native';
 import waterDrop from '../assets/waterdrop.png'
 import { Header } from '../components/Header';
 
 import colors from '../styles/colors';
-import { FlatList } from 'react-native-gesture-handler';
-import { PlantProps } from '../libs/storage';
+import { PlantProps, loadPlant } from '../libs/storage';
+import { formatDistance } from 'date-fns';
+import { pt } from 'date-fns/locale';
+import fonts from '../styles/fonts';
+import { PlantCardSecondary } from '../components/PlantCardSecondary';
 
 export function MyPlants() {
-    const [] = useState<PlantProps[]>([])
+    const [myPlants, setMyPlants] = useState<PlantProps[]>([])
     const [loading, setLoading] = useState(true)
+    const [nextWaterd, setNextWaterd] = useState<string>()
+
+    useEffect(() => {
+        async function loadStorageData() {
+            const plantStoraged = await loadPlant();
+
+            const nextTime = formatDistance(
+                new Date(plantStoraged[0].dateTimeNotification).getTime(),
+                new Date().getTime(),
+                { locale: pt }
+            );
+
+            setNextWaterd(
+                `Não esqueça de regar a ${plantStoraged[0].name} à ${nextTime} horas.`
+            )
+
+            setMyPlants(plantStoraged);
+            setLoading(false);
+        }
+
+        loadStorageData();
+    }, [])
     
     return (
         <View style={styles.container}>
@@ -26,17 +52,23 @@ export function MyPlants() {
                     style={styles.spotlightImage}
                 />
                 <Text style={styles.spotlightText}>
-                    suahsuhau
+                    {nextWaterd}
                 </Text>
             </View>
 
             <View style={styles.plants}>
-                <Text styles={styles.plantsTitle}>
+                <Text style={styles.plantsTitle}>
                     Próximas regadas
                 </Text>
 
                 <FlatList 
-                    data
+                    data={myPlants}
+                    keyExtractor={(item) => String(item.id)}
+                    renderItem={({item }) => (
+                        <PlantCardSecondary data={item} />
+                    )}
+                    showsVerticalScrollIndicator={false}
+                    // contentContainerStyle={{flex: 1}}
                 />
             </View>
         </View>
@@ -51,5 +83,34 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
         paddingTop: 50,
         backgroundColor: colors.background,
+    },
+    spotlight: {
+        backgroundColor: colors.blue_light,
+        paddingHorizontal: 20,
+        borderRadius: 20,
+        height: 110,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    spotlightImage: {
+        width: 60,
+        height: 60
+    },
+    spotlightText: {
+        flex: 1,
+        color: colors.blue,
+        paddingHorizontal: 20,
+    },
+    plants: {
+        flex: 1,
+        width: '100%'
+    },
+    plantsTitle: {
+        fontSize: 24,
+        fontFamily: fonts.heading,
+        color: colors.heading,
+        marginVertical: 20
     }
+
 })

@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Welcome } from '../pages/Welcome';
 import { UserIdentification } from '../pages/UserIdentification';
 import { Confirmation } from '../pages/Confirmation';
-import { PlantSelect } from '../pages/PlantSelect';
+import AuthRoutes from './tabs.routes';
 import { PlantSave } from '../pages/PlantSave';
 import { MyPlants } from '../pages/MyPlants';
 
@@ -33,7 +33,7 @@ const AppRoutes: React.FC = () => (
 
         <stackRoutes.Screen 
             name="PlantSelect"
-            component={PlantSelect}
+            component={AuthRoutes}
         />
 
         <stackRoutes.Screen 
@@ -43,7 +43,7 @@ const AppRoutes: React.FC = () => (
 
         <stackRoutes.Screen 
             name="MyPlants"
-            component={MyPlants}
+            component={AuthRoutes}
         />
 
     </stackRoutes.Navigator>
